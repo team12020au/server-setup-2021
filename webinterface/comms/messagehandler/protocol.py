@@ -2,7 +2,6 @@
 This is the implementation of B39, modified slightly for B41.
 This module implements functions to load a JSON-schema and validate messages against this schema.
 This is an implementation of the newest JSON-protocol
-
 Contains functions to import a jsonschema,
 read/write json files and strings and to validate those.
 """
@@ -22,20 +21,19 @@ class ProtocolSchema():
     def load_schema(jschema):
         """
         Loads jsonschema from file
-
         :param jschema:
         Takes a filename as a string
         :return:
         """
 
         with open(jschema, 'r', encoding="utf-8") as f:
+        #with open(jschema, 'r', encoding="utf-16") as f:
             return json.loads(f.read())
 
     @staticmethod
     def write_jsonfile(outputfile, data):
         """
         Write "jsonly" correct json files
-
         :param outputfile:
         Name of the file to be as a string
         :param data:
@@ -43,13 +41,14 @@ class ProtocolSchema():
         :return:
         """
         with open(outputfile, 'w', encoding="utf-8") as jsonFile:
+        #with open(outputfile, 'w', encoding="utf-16") as jsonFile:
+
             json.dump(data, jsonFile)
 
     @staticmethod
     def write_jsonstr(var):
         """
         Write "jsonly" correct json string
-
         :param var:
         :return:
         """
@@ -59,7 +58,6 @@ class ProtocolSchema():
     def read_jsonstr(var):
         """
         Read json-data from string
-
         :param var:
         :return:
         """
@@ -69,19 +67,18 @@ class ProtocolSchema():
     def read_jsonfile(inputfile):
         """
         Read json-data from file
-
         :param inputfile:
         Json file containing data
         :return:
         """
         with open(inputfile, 'r', encoding="utf-8") as datafile:
+        #with open(inputfile, 'r', encoding="utf-16") as datafile:
             return json.load(datafile)
 
     @staticmethod
     def validating(jsondata, schema):
         """
         Validates json-data against schema
-
         :param jsondata:
         The variable containing json-data
         :param schema:
@@ -123,6 +120,7 @@ class Message():
         # Extract the payload part, this can be sent when filled
         self.payload = self.protocol_schema["properties"]
 
+#må ikke rette i
     def unpack(self, protocolVersion, sentBy, msgType, commandList, statusCode, parameterObj, dataObj):
         self.protocolVersion = protocolVersion
         self.sentBy = sentBy
@@ -132,14 +130,20 @@ class Message():
         self.parameterObj = parameterObj
         self.dataObj = dataObj
 
+# Her skal der fjernes det der ikke skal sendes ud og tilføjes til der skal pakkes udover...
     def pack(self):
         self.payload["protocolVersion"] = self.protocolVersion
         self.payload["sentBy"] = self.sentBy
         self.payload["msgType"] = self.msgType
-        self.payload["commandList"] = self.commandList
+#        self.payload["commandList"] = self.commandList
+        self.payload["batteri"] = self.batteri
+        self.payload["job"] = self.job
+        self.payload["value"] = self.value
+        self.payload["load"] = self.load
+        self.payload["duration"] = self.duration
         self.payload["statusCode"] = self.statusCode
-        self.payload["parameterObj"] = self.parameterObj
-        self.payload["dataObj"] = self.dataObj
+#        self.payload["parameterObj"] = self.parameterObj
+#        self.payload["dataObj"] = self.dataObj
 
     def new(self):
         """

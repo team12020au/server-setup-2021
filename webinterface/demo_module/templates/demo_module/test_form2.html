@@ -1,0 +1,51 @@
+{%  extends "base.html" %}
+{%  load static %}
+{% block content %}
+
+
+<div id="module_home">
+
+  <div class="padding">
+    <div class="container-fluid" id="underlay">
+        <div class="module-text">
+            <h1>Data afsendt</h1>
+        </div>
+    </div>
+  </div>
+
+<div class="padding">
+  <div class="container-fluid">
+      <div class="row justify-content-center">
+
+        <div class="container underlay">
+
+            <h3>Valgte parametre</h3>
+
+            <div class="padding">
+
+               <b>Test bestilt af:</b>&emsp;&emsp;&emsp;{{sentBy}} <br>
+               <b>Batteritype:    </b>&emsp;&emsp;&emsp;&emsp;{{batteri}} <br>
+               <b>Jobtype:            </b>&emsp;&emsp;&emsp;&emsp;&emsp; {{job}} <br>
+               <b>Enhed:            </b>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{{load}} <br>
+               <b>Værdi:         </b>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; {{value}} <br>
+               <b>Varighed af test:</b>&emsp;&emsp;{{duration}} sekunder <br>
+
+              </div>
+
+            <div class="padding">
+               <b>Resultater kan downloades fra databasen om ca {{duration}} sekunder</b> <br>
+               <b>Klik <a href="http://localhost:81/demo_module/saved_data/">HER</a> for at gå til databasen</b>
+
+
+              </div>
+
+        </div>
+
+      </div>
+  </div>
+</div>
+
+</div>
+
+{% endblock content %}
+

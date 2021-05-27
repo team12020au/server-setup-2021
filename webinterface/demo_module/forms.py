@@ -29,15 +29,16 @@ class TestForm(forms.Form):
     )
 
     TOPICS = (
-        ('Testdevice/demo_module/Inbound','Testdevice/demo_module/Inbound'),
-        ('Testdevice/demo_module/Outbound','Testdevice/demo_module/Outbound'),
+        ('Team1','Team1'),
+    #    ('Testdevice/demo_module/Inbound', 'Testdevice/demo_module/Inbound'),
+    #    ('Testdevice/demo_module/Outbound','Testdevice/demo_module/Outbound'),
     )
 
     MSG_TYPES = (
-        ('command', 'command'),
+      #  ('command', 'command'),
         ('data', 'data'),
-        ('status', 'status'),
-        ('result', 'result'),
+      #  ('status', 'status'),
+      #  ('result', 'result'),
     )
 
     #
@@ -62,41 +63,91 @@ class TestForm(forms.Form):
         choices=Status.STATUS_CODES
     )
 
-    command_list_str = forms.CharField(
-        label='Kommandoer (JSON-streng med liste af key-value pairs)',
-        widget=forms.TextInput(attrs={
-            'value': '["cmd1", "cmd2"]',
-            'placeholder': '["cmd1", "cmd2"]'
-        }),
-        required=False
-    )
+#    command_list_str = forms.CharField(
+#        label='Kommandoer (JSON-streng med liste af key-value pairs)',
+#        widget=forms.TextInput(attrs={
+#            'value': '["cmd1", "cmd2"]',
+#            'placeholder': '["cmd1", "cmd2"]'
+#        }),
+#        required=False
+#    )
 
-    parameter_obj_str = forms.CharField(
-        label='Parametre (JSON-streng med liste af key-value pairs)',
-        widget=forms.Textarea(attrs={
-            'placeholder': '{"param1": "val1", "param2": "val2"}'
-        }),
-        initial='{"param1": "val1", "param2": "val2"}',
-        required=False
-    )
+#    parameter_obj_str = forms.CharField(
+#        label='Parametre (JSON-streng med liste af key-value pairs)',
+#        widget=forms.Textarea(attrs={
+#            'placeholder': '{"param1": "val1", "param2": "val2"}'
+#        }),
+#        initial='{"param1": "val1", "param2": "val2"}',
+#        required=False
+#    )
 
-    data_obj_str = forms.CharField(
-        label='Dataobjekt (JSON-streng med liste af key-value pairs)',
-        widget=forms.Textarea(attrs={
-            'placeholder': '{ "x": [1,2,3,4,5,6,7,8,9,10], "y": [1,4,9,16,25,36,49,64,81,100] }'
-        }),
-        initial='{ "x": [1,2,3,4,5,6,7,8,9,10], "y": [1,4,9,16,25,36,49,64,81,100] }',
-        required=False
-    )
+#    data_obj_str = forms.CharField(
+#        label='Dataobjekt (JSON-streng med liste af key-value pairs)',
+#        widget=forms.Textarea(attrs={
+#            'placeholder': '{ "x": [1,2,3,4,5,6,7,8,9,10], "y": [1,4,9,16,25,36,49,64,81,100] }'
+#        }),
+#        initial='{ "x": [1,2,3,4,5,6,7,8,9,10], "y": [1,4,9,16,25,36,49,64,81,100] }',
+#        required=False
+#    )
 
     # Who requested this data
-    sender = forms.CharField(
-        label='Opretter (navn)',
+    sentBy = forms.CharField(
+        label='Angiv navn',
         required=True,
         widget=forms.TextInput(attrs={
-            'value': 'testbruger'
+            'value': 'Testbruger'
         })
     )
+    BATTERI_TYPES = (
+        ('n', 'Alkaline NiHM'),
+        ('b', 'Bilbatteri Lead acid'),
+        ('lis', 'Lithium Batteri, stor'),
+        ('lil', 'Lithium Batteri, lille'),
+        ('s', 'Saltvandsbatteri'),
+    )
+    batteri = forms.ChoiceField(
+        label='Batteritype',
+        choices=BATTERI_TYPES
+    )
+
+    JOB = (
+        ('1', 'Opladning'),
+        ('0', 'Afladning'),
+    )
+    job = forms.ChoiceField(
+        label='Job type',
+        choices=JOB
+    )
+
+
+
+    duration = forms.CharField(
+        label='Varighed af måling i sekunder. Vælg blot en værdi uden enhed',
+        widget=forms.TextInput(attrs={
+            'value': '120',
+            'placeholder': 'Angiv værdi'
+        }),
+        required=True
+    )
+
+    value = forms.CharField(
+        label='Opladningsværdi / Afladningsværdi. Vælg blot et tal uden enhed',
+        widget=forms.TextInput(attrs={
+            'value': '12',
+            'placeholder': 'Angiv værdi'
+        }),
+        required=True
+    )
+
+    LOAD = (
+        ('v', 'Voltage'),
+        ('c', 'Current'),
+    )
+    load = forms.ChoiceField(
+        label='Ved opladning vælg voltage el. current. Ved afladning vælg current',
+        choices=LOAD
+    )
+
 
     # tag data to keep it in the db forever
     no_delete = forms.BooleanField(
@@ -108,7 +159,7 @@ class TestForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
-
+            Submit('submit', 'Start måling'),
             Row(
                 Column('protocol_version', css_class='form-group col-md-4 mb-0'),
                 Column('topic', css_class='form-group col-md-4 mb-0'),
@@ -117,14 +168,19 @@ class TestForm(forms.Form):
             ),
             Row(
                 Column('status_code', css_class='form-group col-md-4 mb-0'),
-                Column('command_list_str', css_class='form-group col-md-8 mb-0'),
+               #Column('command_list_str', css_class='form-group col-md-8 mb-0'),
                 css_class='form-row'
             ),
-            'parameter_obj_str',
-            'data_obj_str',
-            'sender',
-            'no_delete',
-            Submit('submit', 'Start test')
+            #'parameter_obj_str',
+            #'data_obj_str',
+            'sentBy',
+            'batteri',
+            'job',
+            'value',
+            'load',
+            'duration',
+         #   'no_delete',
+
         )
 
 

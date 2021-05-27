@@ -6,10 +6,7 @@
         "protocolVersion": {"type": "number"},
         "sentBy": {"type": "string"},
         "msgType": {"type": "string"},
-        "commandList": {"type": "array"},
-        "statusCode": {"type": "string"},
-        "parameterObj": {"type": "object"},
-        "dataObj": {"type": "object"}
+        "statusCode": {"type": "string"}
     },
     "required": ["protocolVersion", "sentBy", "msgType", "statusCode"]
 }

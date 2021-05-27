@@ -158,8 +158,44 @@ def demo_create_test(request):
                 outcome = "Fejl. Beskeden blev ikke."
 
             # Show result to user
-            context = {'outcome': outcome, }
-            return HttpResponse(template.render(context, request))
+        #    context = {'outcome': outcome, }
+        #    return HttpResponse(template.render(context, request))
+            if (form.data.get('batteri') == 'n'):
+                batteri = 'Alkaline NiHM'
+            elif (form.data.get('batteri') == 'b'):
+                batteri = 'Bilbatteri Lead acid'
+            elif (form.data.get('batteri') == 'lis'):
+                batteri = 'Lithium Batteri, stor'
+            elif (form.data.get('batteri') == 'lil'):
+                batteri = 'Lithium Batteri, lille'
+            elif (form.data.get('batteri') == 's'):
+                batteri = 'Saltvandsbatteri'
+
+
+            if (form.data.get('job') == '0'):
+                job = 'Afladning'
+            elif (form.data.get('job') == '1'):
+                job = 'Opladning'
+
+            if (form.data.get('load') == 'v'):
+                load = 'Voltage'
+            elif (form.data.get('load') == 'c'):
+                load = 'Current'
+
+#            unit = form.data.get('unit')
+            value = form.data.get('value')
+            duration = form.data.get('duration')
+            sentBy = form.data.get('sentBy')
+
+            print(form.data.get('batteri'))
+            print(form.data.get('job'))
+            print(form.data.get('load'))
+            print(form.data.get('value'))
+            print(form.data.get('duration'))
+
+            return render(request, 'demo_module/test_form2.html',
+                          {'sentBy': sentBy, 'batteri': batteri, 'job': job, 'load': load,
+                           'value': value, 'duration': duration})
 
     # GET-request, possibly failed submission
     else:
@@ -190,26 +226,30 @@ def transmit_mqtt(form_obj):
     # Payload
     m = protocol.Message()
     m.new()
-    m.sentBy = form_obj['sender']
+    m.sentBy = form_obj['sentBy']
     m.msgType = form_obj['msg_type']
     m.statusCode = form_obj['status_code']
 
     # try-except on the json conversions
     # convert json -> python
-    try:
-        m.commandList = json.loads(form_obj['command_list_str'])
-    except:
-        print("Error converting commandlist -> insert empty")
+#    try:
+#        m.commandList = json.loads(form_obj['command_list_str'])
+#    except:
+#        print("Error converting commandlist -> insert empty")
 
-    try:
-        m.dataObj = json.loads(form_obj['data_obj_str'])
-    except:
-        print("Error converting dataObj -> insert empty")
-
-    try:
-        m.parameterObj = json.loads(form_obj['parameter_obj_str'])
-    except:
-        print("Error converting parameterObj -> insert empty")
+#    try:
+#        m.dataObj = json.loads(form_obj['data_obj_str'])
+#    except:
+#        print("Error converting dataObj -> insert empty")
+    m.batteri = form_obj['batteri']
+    m.job = form_obj['job']
+    m.value = form_obj['value']
+    m.load = form_obj['load']
+    m.duration = form_obj['duration']
+ #   try:
+ #       m.parameterObj = json.loads(form_obj['parameter_obj_str'])
+ #   except:
+ #       print("Error converting parameterObj -> insert empty")
 
     # Done inserting data
     m.pack()

@@ -20,11 +20,11 @@ class Status(models.Model):
 
     STATUS_CODES = [
         ('200', '200 OK'),
-        ('202', '202 Received and accepted'),
-        ('400', '400 Bad request'),
-        ('404', '404 Not found'),
-        ('405', '405 Method not allowed'),
-        ('500', '500 Internal error on device'),
+    #    ('202', '202 Received and accepted'),
+    #    ('400', '400 Bad request'),
+    #    ('404', '404 Not found'),
+    #    ('405', '405 Method not allowed'),
+    #    ('500', '500 Internal error on device'),
     ]
 
     POWER_CODES = [
