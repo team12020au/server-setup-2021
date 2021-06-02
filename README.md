@@ -6,7 +6,7 @@ https://github.com/AUTeam2/server-setup
 
 
 Når server-setup-2021 er hentet ned, skal man stå i denne mappe og bygge serveren. 
-Dette gøres vha: 
+Dette gøres vha:
 **$docker-compose build**
 
 Herefter kan webserveres startes op med kommandoen: 
