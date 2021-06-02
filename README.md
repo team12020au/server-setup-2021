@@ -4,7 +4,7 @@ Det er en modificeret forke af den oprindelige webserver der blev overtaget i ef
 For at se den originale readme file fra det originale server-setup, se her: <br>
 https://github.com/AUTeam2/server-setup
 
-
+Den modificere server som skal kobles til batteriprøvestanden skal hentes hed vha Git Clone. <br>
 Når server-setup-2021 er hentet ned, skal man stå i roden af denne mappe og bygge serveren. 
 Dette gøres vha: <br>
 **$ docker-compose build**
