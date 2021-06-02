@@ -15,6 +15,6 @@ Herefter kan webserveres startes op med kommandoen:  <br>
 Herefter kan brokeren startes op i et nyt terminalvindue, dog i samme sti med kommandoen:<br>
 **docker-compose exec webinterface python manage.py start_messagehandler**
 
-For at gå ind på den locale webserver indtastes der i et browservindue:
+For at gå ind på den locale webserver indtastes der i et browservindue:<br>
 http://localhost:81/ <br>
 Der er nu adgang til webserveren
