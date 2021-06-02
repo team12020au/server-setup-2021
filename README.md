@@ -13,7 +13,7 @@ Herefter kan webserveres startes op med kommandoen:  <br>
 **$docker-compose up**
 
 I et nyt terminalvindue startes brokeren op vha kommandoen. <br>
-**docker-compose exec webinterface python manage.py start_messagehandler**
+**docker-compose exec webinterface python manage.py start_messagehandler**<br>
 Husk at du skal befinde dig i roden af server-setup-2021:<br>
 
 
